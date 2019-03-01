@@ -11,7 +11,7 @@ class Userlist extends PureComponent {
         const { users } = this.props;
         return(
             <div>
-                List of users:
+                <span>List of users:</span>
                 <ul>
                     {users.map(user => (
                         <li key={user.id}>{user.name}</li>

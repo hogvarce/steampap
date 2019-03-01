@@ -1,4 +1,4 @@
-module.exports = {
+{
     "env": {
         "browser": true,
         "es6": true
@@ -22,5 +22,14 @@ module.exports = {
         "react"
     ],
     "rules": {
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error"
+    },
+    "settings": {
+        "import/resolver": {
+            "webpack": {
+                "config": "webpack.base.js"
+            }
+        }
     }
-};
+}
