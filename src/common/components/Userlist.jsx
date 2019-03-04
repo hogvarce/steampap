@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { fetchUsers } from '@/common/actions';
 
-class Userlist extends PureComponent {
+export class Userlist extends PureComponent {
     componentDidMount() {
         this.props.fetchUsers();
     }
