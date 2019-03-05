@@ -1,17 +1,22 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import { fetchUsers } from '@/common/actions';
 
-class Userlist extends PureComponent {
+export class Userlist extends PureComponent {
     componentDidMount() {
         this.props.fetchUsers();
     }
 
     render() {
         const { users } = this.props;
-        return(
+        return (
             <div>
-                List of users:
+                <Helmet>
+                    <title>Users list</title>
+                    <meta property="og:title" content="Users list" />
+                </Helmet>
+                <span>List of users:</span>
                 <ul>
                     {users.map(user => (
                         <li key={user.id}>{user.name}</li>

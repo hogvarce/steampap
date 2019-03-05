@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "pm2 start",
+    "dev": "pm2 start && pm2 logs run-server",
     "dev:server": "nodemon --watch build --exec \"node build/server.js\"",
     "dev:server:build": "webpack --config webpack.server.js --watch",
     "dev:client:build": "webpack --config webpack.client.js --watch"
@@ -40,11 +40,13 @@
     "@emotion/core": "^10.0.7",
     "axios": "^0.18.0",
     "express": "^4.16.4",
+    "express-http-proxy": "^1.5.1",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
+    "react-helmet": "^5.2.0",
     "react-redux": "^6.0.1",
-    "react-router-config": "^4.4.0-beta.6",
-    "react-router-dom": "^4.3.1",
+    "react-router-config": "1.0.0-beta.4",
+    "react-router-dom": "4.2.2",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "serialize-javascript": "^1.6.1"
