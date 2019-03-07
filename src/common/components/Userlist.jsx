@@ -13,8 +13,8 @@ export class Userlist extends PureComponent {
         return (
             <div>
                 <Helmet>
-                    <title>Users list</title>
-                    <meta property="og:title" content="Users list" />
+                    <title>Game page</title>
+                    <meta property="og:title" content="Game page" />
                 </Helmet>
                 <span>List of users:</span>
                 <ul>

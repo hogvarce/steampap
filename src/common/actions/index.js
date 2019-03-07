@@ -41,14 +41,17 @@ export const fetchCurrentGame = (appid) => async (dispatch) => {
 
 export const FETCH_GAMES = 'fetch_games';
 export const fetchGames = () => async (dispatch) => {
-    const first = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steamkey}&steamid=76561198061514868&format=json`);
-    const two = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steamkey}&steamid=76561197960434622&format=json`);
-    const three = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steamkey}&steamid=76561197960498879&format=json`);
+    const steamids = [
+        '76561198061514868', '76561197960434622', '76561197960498879',
+    ];
     const multiplayer = await axios.get(`http://steamspy.com/api.php?request=tag&tag=Multiplayer`);
-    const res = composeGames([first, two, three], multiplayer);
-    dispatch({
-        type: FETCH_GAMES,
-        payload: { data: res },
+    const requests = await steamids.map(steamid => axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steamkey}&steamid=${steamid}&format=json`));
+    await Promise.all(requests).then((results) => {
+        const res = composeGames(results, multiplayer);
+        dispatch({
+            type: FETCH_GAMES,
+            payload: { data: res },
+        });
     });
 };
 

@@ -22,7 +22,7 @@ app.get('*', (req, res) => {
     const axiosIstant = axios.create({
         baseURL: apiUrl,
         headers: { cookie: req.get('cookie') || '' },
-    });
+    });``
     const store = createStore({}, axiosIstant);
     const promises = matchRoutes(Routes, req.path)
         .map(({ route }) => route.loadData ? route.loadData(store) : null)
