@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderRoutes } from 'react-router-config';
 import Header from '@/common/components/Header';
-import { fetchCurrentUser } from '@/common/actions';
+import { fetchGames } from '@/common/actions';
 
 const App = ({ route }) => (
     <div>
@@ -10,7 +10,7 @@ const App = ({ route }) => (
     </div>
 );
 
-const loadData = ({ dispatch }) => dispatch(fetchCurrentUser());
+const loadData = ({ dispatch }) => dispatch(fetchGames());
 
 export default {
     component: App,
