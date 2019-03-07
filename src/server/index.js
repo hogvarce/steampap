@@ -7,7 +7,7 @@ import Routes from '@/common/routes';
 import renderer from './helpers/renderer';
 
 const app = express();
-const port = process.env.port || 8080;
+const port = process.env.PORT || 8080;
 const apiUrl = 'https://react-ssr-api.herokuapp.com';
 
 app.use('/api', proxy(apiUrl, {
