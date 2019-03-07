@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "node build/server",
     "dev": "pm2 start && pm2 logs run-server",
     "dev:server": "nodemon --watch build --exec \"node build/server.js\"",
     "dev:server:build": "webpack --config webpack.server.js --watch",
