@@ -10,7 +10,7 @@ const App = ({ route }) => (
     </div>
 );
 
-const loadData = ({ dispatch }) => dispatch(fetchGames());
+const loadData = ({ dispatch }, params) => dispatch(fetchGames(params));
 
 export default {
     component: App,

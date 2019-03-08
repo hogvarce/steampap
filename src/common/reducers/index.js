@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
-import users from './users';
-import auth from './auth';
-import admins from './admins';
+import game from './game';
 import games from './games';
+import steamids from './steamids';
 
 export default combineReducers({
-    users,
-    auth,
-    admins,
+    game,
     games,
+    steamids,
 });

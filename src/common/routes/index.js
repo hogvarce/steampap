@@ -1,6 +1,6 @@
 import App from '@/common/App';
 import Home from '@/common/components/Home';
-import Userlist from "@/common/components/Userlist";
+import Game from "@/common/components/Game";
 import ErrorPage from '@/common/components/ErrorPage';
 
 export default [{
@@ -12,8 +12,8 @@ export default [{
             exact: true,
         },
         {
-            ...Userlist,
-            path: '/game/:id',
+            ...Game,
+            path: '/game/:appid',
         },
         {
             ...ErrorPage,

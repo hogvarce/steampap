@@ -12,7 +12,7 @@ const initialState = window.__INIT_STATE__ || {};
 delete window.__INIT_STATE__;
 
 const axiosIstant = axios.create({
-    baseURL: '/api',
+    baseURL: '/steamapi',
 });
 
 const store = createStore(initialState, axiosIstant, createLogger());

@@ -1,17 +1,23 @@
 import React, { PureComponent } from 'react';
 import {connect} from "react-redux";
-import { Link } from 'react-router-dom';
 
 class Home extends PureComponent {
     state = {
         steamids: '',
     };
 
+    componentWillMount() {
+        this.setState({
+            steamids: this.props.steamids ? this.props.steamids.join(',') : '',
+        });
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
         this.props.history.push({
-            search: this.state.steamids,
+            search: `ids=${this.state.steamids}`,
         });
+        window.location.reload();
     };
 
     handleChange = (e) => {
@@ -37,7 +43,7 @@ class Home extends PureComponent {
                   <ul className="collection">
                       {games.map((game) => (
                           <li key={game.appid} className="collection-item">
-                              <Link to={`/game/${game.appid}`}>{game.name}</Link>
+                              <a href={`https://store.steampowered.com/app/${game.appid}`} target="_blank">{game.name}</a>
                           </li>
                       ))}
                   </ul>
@@ -47,7 +53,7 @@ class Home extends PureComponent {
     }
 }
 
-const mapStateToProps = ({ games }) => ({ games });
+const mapStateToProps = ({ games, steamids }) => ({ games, steamids });
 
 export default connect(mapStateToProps)(Home);
 
