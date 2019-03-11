@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-export const steamkey = '7D5F2FA02FF09ACA687DE979BE355B30';
-
 export const FETCH_CURRENT_GAME = 'fetch_current_game';
 export const fetchCurrentGame = (appid = 220) => async (dispatch, getState, api) => {
     const res = await api.get(`/ISteamUserStats/GetSchemaForGame/v2/?key=${steamkey}&appid=${appid}`);
@@ -27,8 +25,13 @@ export const fetchGames = (steamids) => async (dispatch, getState, api) => {
             payload: { data: [] },
         });
     }
-    const multiplayer = await axios.get(`http://steamspy.com/api.php?request=tag&tag=Multiplayer`);
-    const requests = await steamids.map(steamid => api.get(`/IPlayerService/GetOwnedGames/v0001/?key=${steamkey}&steamid=${steamid}&format=json`));
+    let multiplayer = { data: [] };
+    try {
+        multiplayer = await axios.get(`http://localhost:8080/steamspy`);
+    } catch (e) {
+        console.log(e);
+    }
+    const requests = await steamids.map(steamid => api.get(`http://localhost:8080/steampowered/?steamid=${steamid}`));
     await Promise.all(requests).then((results) => {
         const res = composeGames(results, multiplayer);
         dispatch({
@@ -49,7 +52,7 @@ export function composeGames(responses, multiplayer) {
     }, []);
 }
 
-function filterMulteplayer(games, multiplayer) {
+function filterMulteplayer(games = [], multiplayer = {}) {
     const result = [];
     games.forEach((game) => {
         if (multiplayer[game.appid])

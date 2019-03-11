@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import {connect} from "react-redux";
+import { fetchGames } from '@/common/actions';
 
 class Home extends PureComponent {
     state = {
@@ -17,7 +18,8 @@ class Home extends PureComponent {
         this.props.history.push({
             search: `ids=${this.state.steamids}`,
         });
-        window.location.reload();
+        const steamids = this.state.steamids.split(',').map(steamid => steamid.trim());
+        this.props.fetchGames(steamids);
     };
 
     handleChange = (e) => {
@@ -41,7 +43,7 @@ class Home extends PureComponent {
                 <div>
                   <div>Games found: <span>{games.length}</span></div>
                   <ul className="collection">
-                      {games.map((game) => (
+                      {games.length && games.map((game) => (
                           <li key={game.appid} className="collection-item">
                               <a href={`https://store.steampowered.com/app/${game.appid}`} target="_blank">{game.name}</a>
                           </li>
@@ -55,5 +57,5 @@ class Home extends PureComponent {
 
 const mapStateToProps = ({ games, steamids }) => ({ games, steamids });
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, { fetchGames })(Home);
 

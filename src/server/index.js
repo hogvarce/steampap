@@ -2,14 +2,15 @@ import express from 'express';
 import axios from 'axios';
 import { matchRoutes } from 'react-router-config';
 import proxy from 'express-http-proxy';
+import bodyParser from'body-parser';
 import createStore from '@/common/createStore';
 import Routes from '@/common/routes';
 import renderer from './helpers/renderer';
-import steam from './helpers/steamapi';
 
 const app = express();
 const port = process.env.PORT || 8080;
 const apiUrl = 'http://api.steampowered.com';
+const steamkey = '7D5F2FA02FF09ACA687DE979BE355B30';
 
 app.use('/steamapi', proxy(apiUrl, {
     proxyReqOptDecorator(opts) {
@@ -19,10 +20,22 @@ app.use('/steamapi', proxy(apiUrl, {
 }));
 
 app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api', async (req, res) => {
-    const result = await steam(2100);
-    res.send(result);
+app.get('/steamspy', async (req, res) => {
+    const { data } = await axios.get('http://steamspy.com/api.php?request=tag&tag=Multiplayer');
+    res.send(data);
+});
+
+app.get('/steampowered', async (req, res) => {
+    const { steamid } = req.query;
+    if (!steamid) {
+        res.send({ data: [] });
+        return;
+    }
+    const { data } = await axios.get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${steamkey}&steamid=${steamid}&format=json`);
+    res.send(data);
 });
 
 app.get('*', (req, res) => {
