@@ -12,13 +12,6 @@ const port = process.env.PORT || 8080;
 const apiUrl = 'http://api.steampowered.com';
 const steamkey = '7D5F2FA02FF09ACA687DE979BE355B30';
 
-app.use('/steamapi', proxy(apiUrl, {
-    proxyReqOptDecorator(opts) {
-        opts.headers['x-forwarded-host'] = `localhost:${port}`;
-        return opts;
-    }
-}));
-
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,12 +32,9 @@ app.get('/steampowered', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-    const axiosIstant = axios.create({
-        baseURL: apiUrl,
-        headers: { cookie: req.get('cookie') || '' },
-    });
+    const baseUrl = req.headers.host;
     const ids = req.query.ids ? req.query.ids.split(',').map(id => id.trim()) : null;
-    const store = createStore({}, axiosIstant);
+    const store = createStore({}, baseUrl);
     const promises = matchRoutes(Routes, req.path)
         .map(({ route }) => route.loadData ? route.loadData(store, ids) : null)
         .map((promise) => {

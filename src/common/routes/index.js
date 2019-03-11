@@ -12,10 +12,6 @@ export default [{
             exact: true,
         },
         {
-            ...Game,
-            path: '/game/:appid',
-        },
-        {
             ...ErrorPage,
             path: '*',
         },

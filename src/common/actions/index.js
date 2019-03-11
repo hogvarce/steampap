@@ -1,17 +1,8 @@
 import axios from 'axios';
 
-export const FETCH_CURRENT_GAME = 'fetch_current_game';
-export const fetchCurrentGame = (appid = 220) => async (dispatch, getState, api) => {
-    const res = await api.get(`/ISteamUserStats/GetSchemaForGame/v2/?key=${steamkey}&appid=${appid}`);
-    dispatch({
-        type: FETCH_CURRENT_GAME,
-        payload: res,
-    });
-};
-
 export const FETCH_GAMES = 'fetch_games';
 export const GET_REQUEST_IDS = 'get_ids';
-export const fetchGames = (steamids) => async (dispatch, getState, api) => {
+export const fetchGames = (steamids) => async (dispatch, getState, baseUrl) => {
     // const steamids = [
     //     '76561198061514868', '76561197960434622', '76561197960498879',
     // ];
@@ -27,11 +18,11 @@ export const fetchGames = (steamids) => async (dispatch, getState, api) => {
     }
     let multiplayer = { data: [] };
     try {
-        multiplayer = await axios.get(`http://localhost:8080/steamspy`);
+        multiplayer = await axios.get(`http://${baseUrl}/steamspy`);
     } catch (e) {
         console.log(e);
     }
-    const requests = await steamids.map(steamid => api.get(`http://localhost:8080/steampowered/?steamid=${steamid}`));
+    const requests = await steamids.map(steamid => axios.get(`http://${baseUrl}/steampowered/?steamid=${steamid}`));
     await Promise.all(requests).then((results) => {
         const res = composeGames(results, multiplayer);
         dispatch({
