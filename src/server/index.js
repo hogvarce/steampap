@@ -32,7 +32,7 @@ app.get('/steampowered', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-    const baseUrl = req.headers.host;
+    const baseUrl = `${req.protocol}://${req.headers.host}`;
     const ids = req.query.ids ? req.query.ids.split(',').map(id => id.trim()) : null;
     const store = createStore({}, baseUrl);
     const promises = matchRoutes(Routes, req.path)

@@ -15,7 +15,7 @@ const axiosIstant = axios.create({
     baseURL: '/steamapi',
 });
 
-const baseURL = window.location.host;
+const baseURL = `${window.location.protocol}//${window.location.host}`;
 
 const store = createStore(initialState, baseURL, createLogger());
 

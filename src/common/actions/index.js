@@ -18,11 +18,11 @@ export const fetchGames = (steamids) => async (dispatch, getState, baseUrl) => {
     }
     let multiplayer = { data: [] };
     try {
-        multiplayer = await axios.get(`http://${baseUrl}/steamspy`);
+        multiplayer = await axios.get(`${baseUrl}/steamspy`);
     } catch (e) {
         console.log(e);
     }
-    const requests = await steamids.map(steamid => axios.get(`http://${baseUrl}/steampowered/?steamid=${steamid}`));
+    const requests = await steamids.map(steamid => axios.get(`${baseUrl}/steampowered/?steamid=${steamid}`));
     await Promise.all(requests).then((results) => {
         const res = composeGames(results, multiplayer);
         dispatch({
